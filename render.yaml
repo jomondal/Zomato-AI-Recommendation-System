@@ -3,7 +3,7 @@
 
 services:
   - type: web
-    name: zomato-ai-api
+    name: zomato-ai-recommender-api
     runtime: docker
     dockerfilePath: ./backend/Dockerfile
     dockerContext: ./backend
