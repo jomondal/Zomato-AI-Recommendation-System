@@ -5,7 +5,8 @@ WORKDIR /app
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 ENV HF_HOME=/tmp/hf
-ENV DATABASE_URL=sqlite:////app/data/zomato.db
+ENV PORT=10000
+ENV DATABASE_URL=sqlite:////var/data/zomato.db
 
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
@@ -18,6 +19,6 @@ RUN sed -i 's/\r$//' docker-entrypoint.sh && chmod +x docker-entrypoint.sh
 RUN mkdir -p /app/data \
     && python phase1/scripts/ingest_hf_dataset.py --clear --limit 25000
 
-EXPOSE 8000
+EXPOSE 10000
 
 CMD ["sh", "./docker-entrypoint.sh"]
