@@ -4,7 +4,6 @@ WORKDIR /app
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
-ENV HF_HOME=/tmp/hf
 ENV PORT=10000
 ENV DATABASE_URL=sqlite:////var/data/zomato.db
 
@@ -15,9 +14,8 @@ COPY . .
 
 RUN sed -i 's/\r$//' docker-entrypoint.sh && chmod +x docker-entrypoint.sh
 
-# Bake restaurant data into the image at build time (avoids OOM on free-tier runtime).
-RUN mkdir -p /app/data \
-    && python phase1/scripts/ingest_hf_dataset.py --clear --limit 25000
+# Pre-built database (no Hugging Face download during deploy).
+RUN mkdir -p /app/data && cp docker/zomato.db /app/data/zomato.db
 
 EXPOSE 10000
 

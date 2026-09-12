@@ -6,8 +6,6 @@ __pycache__
 .ruff_cache
 htmlcov
 .coverage
-*.db
-*.db-journal
 data/*.db
 data/*.db-journal
 phase1/tests
