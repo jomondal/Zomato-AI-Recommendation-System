@@ -1,0 +1,16 @@
+__pycache__
+*.pyc
+*.pyo
+.pytest_cache
+.mypy_cache
+.ruff_cache
+htmlcov
+.coverage
+*.db
+*.db-journal
+data/*.db
+data/*.db-journal
+phase1/tests
+phase2/tests
+phase3/tests
+phase5/tests

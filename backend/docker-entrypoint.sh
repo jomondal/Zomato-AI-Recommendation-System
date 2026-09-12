@@ -12,4 +12,5 @@ if [ ! -f /app/data/zomato.db ]; then
   ) &
 fi
 
-exec uvicorn phase2.app.main:app --host 0.0.0.0 --port 8000
+PORT="${PORT:-8000}"
+exec uvicorn phase2.app.main:app --host 0.0.0.0 --port "$PORT"
