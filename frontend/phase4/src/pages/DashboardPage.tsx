@@ -57,8 +57,8 @@ export function DashboardPage() {
     >
       <HeroBanner />
 
-      <div className="grid gap-6 xl:grid-cols-3">
-        <div className="space-y-6 xl:col-span-1">
+      <div className="grid gap-4 sm:gap-6 lg:grid-cols-3">
+        <div className="space-y-4 sm:space-y-6 lg:col-span-1">
           <PreferenceForm
             values={preferences}
             options={filterOptions}
@@ -68,7 +68,7 @@ export function DashboardPage() {
           />
         </div>
 
-        <div className="space-y-6 xl:col-span-2">
+        <div className="space-y-4 sm:space-y-6 lg:col-span-2">
           <AiSummary result={recommend.data} />
           {recommend.isError && (
             <p className="rounded-lg bg-red-50 p-4 text-sm text-red-600">

@@ -43,7 +43,7 @@ export function CuisineMultiSelect({ options, value, onChange }: CuisineMultiSel
         aria-haspopup="listbox"
         aria-expanded={open}
         onClick={() => setOpen((prev) => !prev)}
-        className="flex w-full items-center justify-between rounded-lg border border-gray-200 px-3 py-2 text-left text-sm"
+        className="flex w-full items-center justify-between rounded-lg border border-gray-200 px-3 py-2.5 text-left text-sm"
       >
         <span className={value.length ? "text-zomato-dark" : "text-zomato-muted"}>
           {formatSelection(value)}
@@ -58,7 +58,7 @@ export function CuisineMultiSelect({ options, value, onChange }: CuisineMultiSel
         <div
           role="listbox"
           aria-multiselectable="true"
-          className="absolute z-20 mt-1 max-h-48 w-full overflow-y-auto rounded-lg border border-gray-200 bg-white py-1 shadow-card"
+          className="absolute z-20 mt-1 max-h-56 w-full overflow-y-auto rounded-lg border border-gray-200 bg-white py-1 shadow-card sm:max-h-48"
         >
           {options.map((cuisine) => (
             <label

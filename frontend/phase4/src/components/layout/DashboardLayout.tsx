@@ -24,16 +24,19 @@ export function DashboardLayout({
   onHomeClick,
 }: DashboardLayoutProps) {
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen min-w-0">
       <Sidebar onHomeClick={onHomeClick} />
-      <div className="flex flex-1 flex-col">
+      <div className="flex min-w-0 flex-1 flex-col">
         <Header
           filterOptions={filterOptions}
           citySearch={citySearch}
           onCitySearchChange={onCitySearchChange}
           onSearchSelect={onSearchSelect}
+          onHomeClick={onHomeClick}
         />
-        <main className="flex-1 overflow-auto p-8">{children}</main>
+        <main className="flex-1 overflow-x-hidden overflow-y-auto p-4 sm:p-6 lg:p-8">
+          {children}
+        </main>
       </div>
     </div>
   );

@@ -6,7 +6,7 @@ interface SidebarProps {
 
 export function Sidebar({ onHomeClick }: SidebarProps) {
   return (
-    <aside className="flex w-16 flex-col items-center border-r border-gray-200 bg-white py-6">
+    <aside className="hidden w-14 shrink-0 flex-col items-center border-r border-gray-200 bg-white py-5 sm:flex sm:w-16 sm:py-6">
       <button
         type="button"
         title="Reset and start over"

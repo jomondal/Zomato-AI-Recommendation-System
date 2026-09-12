@@ -21,7 +21,7 @@ export function PreferenceForm({
 
   return (
     <form
-      className="rounded-xl bg-white p-6 shadow-card"
+      className="rounded-xl bg-white p-4 shadow-card sm:p-6"
       onSubmit={(e) => {
         e.preventDefault();
         onSubmit();

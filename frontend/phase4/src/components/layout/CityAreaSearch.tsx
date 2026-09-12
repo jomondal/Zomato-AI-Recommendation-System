@@ -73,7 +73,7 @@ export function CityAreaSearch({ options, value, onChange, onSelect }: CityAreaS
   };
 
   return (
-    <div ref={containerRef} className="relative w-full max-w-xs">
+    <div ref={containerRef} className="relative w-full">
       <Search className="absolute left-3 top-1/2 z-10 -translate-y-1/2 text-zomato-muted" size={18} />
       <input
         type="text"

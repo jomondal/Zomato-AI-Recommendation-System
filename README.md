@@ -1,63 +1,73 @@
 # Zomato AI Restaurant Recommendation System
 
-AI-powered restaurant recommendations using the [Zomato Hugging Face dataset](https://huggingface.co/datasets/ManikaSaini/zomato-restaurant-recommendation) and **Groq LLM**.
+AI-powered restaurant discovery for Bangalore — filter by city, cuisine, rating, and budget, then get personalised picks ranked by **Groq LLM** across **51,717 restaurants**.
 
-See [ARCHITECTURE.md](./ARCHITECTURE.md) for the full phased plan.
+## Live Demo
 
-## Project Structure (by phase)
+| Service | URL |
+|---------|-----|
+| **Dashboard (Vercel)** | [**zomato-ai-recommender.vercel.app**](https://zomato-ai-recommender.vercel.app) |
+| **API (Render)** | [zomato-ai-recommender-api.onrender.com](https://zomato-ai-recommender-api.onrender.com) |
+| **API Docs** | [zomato-ai-recommender-api.onrender.com/docs](https://zomato-ai-recommender-api.onrender.com/docs) |
+
+> **Note:** The API runs on Render's free tier — the first request after idle may take ~30–60 seconds (cold start).
+
+## Features
+
+- **Smart filters** — city, area search, multi-cuisine, rating slider, price range
+- **AI recommendations** — Groq LLM explains why each restaurant fits your preferences
+- **51K+ restaurants** — sourced from the [Zomato Hugging Face dataset](https://huggingface.co/datasets/ManikaSaini/zomato-restaurant-recommendation)
+- **Responsive UI** — works on mobile, tablet, and desktop
+- **Production-ready** — Redis caching, rate limiting, Docker, and CI/CD
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|------------|
+| Frontend | React 18, Vite, TypeScript, Tailwind CSS, TanStack Query |
+| Backend | FastAPI, SQLAlchemy, SQLite |
+| AI | Groq (`groq/compound-mini`) |
+| Cache | Redis (optional) |
+| Hosting | Vercel (UI) + Render (API) |
+
+## Project Structure
 
 ```
 backend/
-├── shared/          # Config + DB models (used by all phases)
-├── phase1/          # Data foundation (ETL, ingestion, validation)
-├── phase2/          # Filter API & stats (FastAPI)
+├── shared/          # Config + database models
+├── phase1/          # Data ingestion & validation
+├── phase2/          # Filter API & stats endpoints
 ├── phase3/          # Groq LLM recommendations
-├── data/            # SQLite database
-frontend/
-└── phase4/          # Dashboard UI (React)
-.github/workflows/     # CI/CD pipeline
-docker-compose.yml   # Redis + API + UI
-└── requirements.txt
+├── phase5/          # Production middleware (cache, rate limit)
+├── docker/          # Pre-built SQLite for cloud deploy
+└── data/            # Local SQLite database (gitignored)
+frontend/phase4/     # React dashboard
+.github/workflows/   # CI pipeline
+render.yaml          # Render one-click backend deploy
+docker-compose.yml   # Local full stack (API + UI + Redis)
 ```
 
-## Setup
+See [ARCHITECTURE.md](./ARCHITECTURE.md) for the full phased development plan.
+
+## Quick Start (Local)
+
+### 1. Backend
 
 ```bash
 cd backend
-python -m venv .venv
-.venv\Scripts\activate
 pip install -r requirements.txt
-```
 
-## Phase 1 — Data Foundation
-
-```bash
+# First-time only: ingest dataset (~51K restaurants)
 python phase1/scripts/ingest_hf_dataset.py --clear
 python phase1/scripts/validate_data.py
-pytest phase1/tests
-```
 
-## Phase 2 — Filter API & Stats
-
-```bash
-uvicorn phase2.app.main:app --reload --port 8000
-pytest phase2/tests
+# Start API
+py -3.13 -m uvicorn phase2.app.main:app --reload --port 8000
 ```
 
 API docs: http://localhost:8000/docs
 
-## Phase 3 — Groq LLM Integration
-
-Add `GROQ_API_KEY` to `.env` (see `.env.example`), then:
-
-```bash
-pytest phase3/tests
-pytest phase3/tests/test_integration_groq.py  # live Groq test
-```
-
-`POST /api/v1/recommend` uses Groq for AI ranking; set `"use_llm": false` for rule-based mode.
-
-## Phase 4 — Dashboard UI
+### 2. Frontend
 
 ```bash
 cd frontend/phase4
@@ -65,23 +75,54 @@ npm install
 npm run dev
 ```
 
-Requires the API running on port 8000. Tests: `npm test`
+Open http://localhost:5173
 
-## Phase 5 — Production (Docker + Redis + CI)
+### 3. Environment
+
+Copy `.env.example` to `.env` and set your Groq key:
+
+```
+GROQ_API_KEY=your_key_here
+```
+
+## API Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/api/health` | Health check |
+| `GET` | `/api/v1/filters/options` | Cities, cuisines, price/rating ranges |
+| `POST` | `/api/v1/recommend` | AI-powered recommendations |
+| `GET` | `/api/v1/restaurants` | Browse restaurants |
+| `GET` | `/api/v1/stats/overview` | Dashboard KPIs |
+
+## Deployment
+
+| Component | Platform | Config |
+|-----------|----------|--------|
+| Frontend | [Vercel](https://vercel.com) | `frontend/phase4/` — see `vercel.json` |
+| Backend | [Render](https://render.com) | `render.yaml` blueprint |
+
+**Render env vars:** `GROQ_API_KEY`, `CORS_ORIGINS=https://zomato-ai-recommender.vercel.app`
+
+## Tests
+
+```bash
+# Backend (all phases)
+cd backend && pytest
+
+# Frontend
+cd frontend/phase4 && npm test
+```
+
+## Docker (full stack)
 
 ```bash
 docker compose up --build
 ```
 
 - Dashboard: http://localhost:5173
-- API docs: http://localhost:8000/docs
+- API: http://localhost:8000/docs
 
-```bash
-cd backend && pytest phase5/tests
-```
+## License
 
-## Run all tests
-
-```bash
-pytest
-```
+This project uses the Zomato restaurant dataset for educational purposes. Zomato branding is used for demonstration only.
