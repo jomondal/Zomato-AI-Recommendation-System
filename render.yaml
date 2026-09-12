@@ -17,7 +17,7 @@ services:
       - key: GROQ_MODEL
         value: groq/compound-mini
       - key: CORS_ORIGINS
-        value: https://phase4-two.vercel.app
+        value: https://zomato-ai-recommender.vercel.app
       - key: CACHE_TTL_SECONDS
         value: "3600"
       - key: RATE_LIMIT_REQUESTS
